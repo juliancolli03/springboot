@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestión - TECHLAB</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            padding: 30px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .menu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .menu-item {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .section {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .submenu {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .submenu-item {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.3s;
+            border: none;
+        }
+
+        .submenu-item:hover {
+            background: #764ba2;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #764ba2;
+        }
+
+        button.secondary {
+            background: #6c757d;
+        }
+
+        button.secondary:hover {
+            background: #5a6268;
+        }
+
+        button.danger {
+            background: #dc3545;
+        }
+
+        button.danger:hover {
+            background: #c82333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .alert {
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .alert-info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .carrito-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .carrito-item-info {
+            flex: 1;
+        }
+
+        .carrito-item-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .cantidad-input {
+            width: 80px;
+            text-align: center;
+        }
+
+        .total {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .badge-pendiente {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .badge-confirmado {
+            background: #17a2b8;
+            color: white;
+        }
+
+        .badge-enviado {
+            background: #007bff;
+            color: white;
+        }
+
+        .badge-entregado {
+            background: #28a745;
+            color: white;
+        }
+
+        .badge-cancelado {
+            background: #dc3545;
+            color: white;
+        }
+
+        .badge-stock-bajo {
+            background: #dc3545;
+            color: white;
+        }
+
+        .badge-stock-ok {
+            background: #28a745;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>=================================== SISTEMA DE GESTIÓN - TECHLAB ==================================</h1>
+        
+        <div class="menu">
+            <div class="menu-item" onclick="mostrarSeccion('productos')">1) Gestionar Productos</div>
+            <div class="menu-item" onclick="mostrarSeccion('categorias')">2) Gestionar Categorías</div>
+            <div class="menu-item" onclick="mostrarSeccion('carrito')">3) Ver Carrito de Compras</div>
+            <div class="menu-item" onclick="mostrarSeccion('pedido')">4) Realizar Pedido</div>
+            <div class="menu-item" onclick="mostrarSeccion('historial')">5) Consultar Historial de Pedidos</div>
+            <div class="menu-item" onclick="mostrarSeccion('admin')">6) Administración (usuarios y stock)</div>
+            <div class="menu-item" onclick="salir()">7) Salir</div>
+        </div>
+
+        <!-- Sección: Gestionar Productos -->
+        <div id="productos" class="section">
+            <h2>=================================== ———————Gestion de Productos——————-==================================</h2>
+            <div class="submenu">
+                <div class="submenu-item" onclick="mostrarSubseccion('agregar-producto')">a) Agregar Producto</div>
+                <div class="submenu-item" onclick="mostrarSubseccion('listar-productos')">b) Listar Productos</div>
+                <div class="submenu-item" onclick="mostrarSubseccion('buscar-producto')">c) Buscar Producto por ID</div>
+                <div class="submenu-item" onclick="mostrarSubseccion('actualizar-producto')">d) Actualizar Producto</div>
+                <div class="submenu-item" onclick="mostrarSubseccion('eliminar-producto')">e) Eliminar Producto</div>
+                <div class="submenu-item" onclick="volverMenu()">f) Volver al menú principal</div>
+            </div>
+
+            <div id="agregar-producto" class="subseccion" style="display: none;">
+                <h3>Agregar Nuevo Producto</h3>
+                <div id="alert-agregar-producto"></div>
+                <form id="form-agregar-producto">
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        <input type="text" id="producto-nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción:</label>
+                        <textarea id="producto-descripcion" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio:</label>
+                        <input type="number" id="producto-precio" step="0.01" min="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría:</label>
+                        <select id="producto-categoria" required></select>
+                    </div>
+                    <div class="form-group">
+                        <label>URL de Imagen:</label>
+                        <input type="url" id="producto-imagen">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock:</label>
+                        <input type="number" id="producto-stock" min="0" required>
+                    </div>
+                    <button type="submit">Guardar Producto</button>
+                    <button type="button" class="secondary" onclick="limpiarFormulario('form-agregar-producto')">Limpiar</button>
+                </form>
+            </div>
+
+            <div id="listar-productos" class="subseccion" style="display: none;">
+                <h3>Lista de Productos</h3>
+                <button onclick="cargarProductos()">Actualizar Lista</button>
+                <div id="tabla-productos"></div>
+            </div>
+
+            <div id="buscar-producto" class="subseccion" style="display: none;">
+                <h3>Buscar Producto por ID</h3>
+                <div class="form-group">
+                    <label>ID del Producto:</label>
+                    <input type="number" id="buscar-producto-id" min="1">
+                </div>
+                <button onclick="buscarProductoPorId()">Buscar</button>
+                <div id="resultado-buscar-producto"></div>
+            </div>
+
+            <div id="actualizar-producto" class="subseccion" style="display: none;">
+                <h3>Actualizar Producto</h3>
+                <div id="alert-actualizar-producto"></div>
+                <div class="form-group">
+                    <label>ID del Producto a Actualizar:</label>
+                    <input type="number" id="actualizar-producto-id" min="1">
+                </div>
+                <button onclick="cargarProductoParaActualizar()">Cargar Producto</button>
+                <form id="form-actualizar-producto" style="display: none;">
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        <input type="text" id="actualizar-nombre">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción:</label>
+                        <textarea id="actualizar-descripcion" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio:</label>
+                        <input type="number" id="actualizar-precio" step="0.01" min="0.01">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría:</label>
+                        <select id="actualizar-categoria"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>URL de Imagen:</label>
+                        <input type="url" id="actualizar-imagen">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock:</label>
+                        <input type="number" id="actualizar-stock" min="0">
+                    </div>
+                    <button type="button" onclick="actualizarProducto()">Actualizar Producto</button>
+                </form>
+            </div>
+
+            <div id="eliminar-producto" class="subseccion" style="display: none;">
+                <h3>Eliminar Producto</h3>
+                <div id="alert-eliminar-producto"></div>
+                <div class="form-group">
+                    <label>ID del Producto a Eliminar:</label>
+                    <input type="number" id="eliminar-producto-id" min="1">
+                </div>
+                <button onclick="eliminarProducto()" class="danger">Eliminar Producto</button>
+            </div>
+        </div>
+
+        <!-- Sección: Gestionar Categorías -->
+        <div id="categorias" class="section">
+            <h2>Gestionar Categorías</h2>
+            <div class="submenu">
+                <div class="submenu-item" onclick="mostrarSubseccion('agregar-categoria')">Agregar Categoría</div>
+                <div class="submenu-item" onclick="mostrarSubseccion('listar-categorias')">Listar Categorías</div>
+                <div class="submenu-item" onclick="mostrarSubseccion('actualizar-categoria')">Actualizar Categoría</div>
+                <div class="submenu-item" onclick="mostrarSubseccion('eliminar-categoria')">Eliminar Categoría</div>
+                <div class="submenu-item" onclick="volverMenu()">Volver al menú principal</div>
+            </div>
+
+            <div id="agregar-categoria" class="subseccion" style="display: none;">
+                <h3>Agregar Nueva Categoría</h3>
+                <div id="alert-agregar-categoria"></div>
+                <form id="form-agregar-categoria">
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        <input type="text" id="categoria-nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción:</label>
+                        <textarea id="categoria-descripcion" rows="3"></textarea>
+                    </div>
+                    <button type="submit">Guardar Categoría</button>
+                </form>
+            </div>
+
+            <div id="listar-categorias" class="subseccion" style="display: none;">
+                <h3>Lista de Categorías</h3>
+                <button onclick="cargarCategorias()">Actualizar Lista</button>
+                <div id="tabla-categorias"></div>
+            </div>
+
+            <div id="actualizar-categoria" class="subseccion" style="display: none;">
+                <h3>Actualizar Categoría</h3>
+                <div id="alert-actualizar-categoria"></div>
+                <div class="form-group">
+                    <label>ID de la Categoría:</label>
+                    <input type="number" id="actualizar-categoria-id" min="1">
+                </div>
+                <button onclick="cargarCategoriaParaActualizar()">Cargar Categoría</button>
+                <form id="form-actualizar-categoria" style="display: none;">
+                    <div class="form-group">
+                        <label>Nombre:</label>
+                        <input type="text" id="actualizar-categoria-nombre">
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción:</label>
+                        <textarea id="actualizar-categoria-descripcion" rows="3"></textarea>
+                    </div>
+                    <button type="button" onclick="actualizarCategoria()">Actualizar Categoría</button>
+                </form>
+            </div>
+
+            <div id="eliminar-categoria" class="subseccion" style="display: none;">
+                <h3>Eliminar Categoría</h3>
+                <div id="alert-eliminar-categoria"></div>
+                <div class="form-group">
+                    <label>ID de la Categoría:</label>
+                    <input type="number" id="eliminar-categoria-id" min="1">
+                </div>
+                <button onclick="eliminarCategoria()" class="danger">Eliminar Categoría</button>
+            </div>
+        </div>
+
+        <!-- Sección: Carrito de Compras -->
+        <div id="carrito" class="section">
+            <h2>Carrito de Compras</h2>
+            <button onclick="cargarProductosParaCarrito()">Cargar Productos</button>
+            <div id="productos-carrito"></div>
+            <div id="carrito-items"></div>
+            <div class="total" id="total-carrito">Total: $0.00</div>
+            <button onclick="limpiarCarrito()" class="secondary">Limpiar Carrito</button>
+        </div>
+
+        <!-- Sección: Realizar Pedido -->
+        <div id="pedido" class="section">
+            <h2>Realizar Pedido</h2>
+            <div id="alert-pedido"></div>
+            <div class="form-group">
+                <label>Seleccionar Usuario:</label>
+                <select id="pedido-usuario" required></select>
+            </div>
+            <div id="carrito-pedido"></div>
+            <div class="total" id="total-pedido">Total: $0.00</div>
+            <button onclick="crearPedido()">Confirmar Pedido</button>
+        </div>
+
+        <!-- Sección: Historial de Pedidos -->
+        <div id="historial" class="section">
+            <h2>Historial de Pedidos</h2>
+            <div class="form-group">
+                <label>ID del Usuario:</label>
+                <input type="number" id="historial-usuario-id" min="1">
+            </div>
+            <button onclick="cargarHistorialPedidos()">Consultar Historial</button>
+            <div id="tabla-historial"></div>
+        </div>
+
+        <!-- Sección: Administración -->
+        <div id="admin" class="section">
+            <h2>Administración</h2>
+            <div class="submenu">
+                <div class="submenu-item" onclick="mostrarSubseccion('gestion-usuarios')">Gestionar Usuarios</div>
+                <div class="submenu-item" onclick="mostrarSubseccion('stock-bajo')">Productos con Stock Bajo</div>
+                <div class="submenu-item" onclick="volverMenu()">Volver al menú principal</div>
+            </div>
+
+            <div id="gestion-usuarios" class="subseccion" style="display: none;">
+                <h3>Gestionar Usuarios</h3>
+                <div class="submenu">
+                    <div class="submenu-item" onclick="mostrarSubseccion('agregar-usuario')">Agregar Usuario</div>
+                    <div class="submenu-item" onclick="mostrarSubseccion('listar-usuarios')">Listar Usuarios</div>
+                    <div class="submenu-item" onclick="mostrarSubseccion('actualizar-usuario')">Actualizar Usuario</div>
+                    <div class="submenu-item" onclick="mostrarSubseccion('eliminar-usuario')">Eliminar Usuario</div>
+                </div>
+
+                <div id="agregar-usuario" class="subseccion" style="display: none;">
+                    <h4>Agregar Usuario</h4>
+                    <div id="alert-agregar-usuario"></div>
+                    <form id="form-agregar-usuario">
+                        <div class="form-group">
+                            <label>Nombre:</label>
+                            <input type="text" id="usuario-nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input type="email" id="usuario-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Dirección:</label>
+                            <input type="text" id="usuario-direccion">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono:</label>
+                            <input type="text" id="usuario-telefono">
+                        </div>
+                        <button type="submit">Guardar Usuario</button>
+                    </form>
+                </div>
+
+                <div id="listar-usuarios" class="subseccion" style="display: none;">
+                    <h4>Lista de Usuarios</h4>
+                    <button onclick="cargarUsuarios()">Actualizar Lista</button>
+                    <div id="tabla-usuarios"></div>
+                </div>
+
+                <div id="actualizar-usuario" class="subseccion" style="display: none;">
+                    <h4>Actualizar Usuario</h4>
+                    <div id="alert-actualizar-usuario"></div>
+                    <div class="form-group">
+                        <label>ID del Usuario:</label>
+                        <input type="number" id="actualizar-usuario-id" min="1">
+                    </div>
+                    <button onclick="cargarUsuarioParaActualizar()">Cargar Usuario</button>
+                    <form id="form-actualizar-usuario" style="display: none;">
+                        <div class="form-group">
+                            <label>Nombre:</label>
+                            <input type="text" id="actualizar-usuario-nombre">
+                        </div>
+                        <div class="form-group">
+                            <label>Email:</label>
+                            <input type="email" id="actualizar-usuario-email">
+                        </div>
+                        <div class="form-group">
+                            <label>Dirección:</label>
+                            <input type="text" id="actualizar-usuario-direccion">
+                        </div>
+                        <div class="form-group">
+                            <label>Teléfono:</label>
+                            <input type="text" id="actualizar-usuario-telefono">
+                        </div>
+                        <button type="button" onclick="actualizarUsuario()">Actualizar Usuario</button>
+                    </form>
+                </div>
+
+                <div id="eliminar-usuario" class="subseccion" style="display: none;">
+                    <h4>Eliminar Usuario</h4>
+                    <div id="alert-eliminar-usuario"></div>
+                    <div class="form-group">
+                        <label>ID del Usuario:</label>
+                        <input type="number" id="eliminar-usuario-id" min="1">
+                    </div>
+                    <button onclick="eliminarUsuario()" class="danger">Eliminar Usuario</button>
+                </div>
+            </div>
+
+            <div id="stock-bajo" class="subseccion" style="display: none;">
+                <h3>Productos con Stock Bajo</h3>
+                <div class="form-group">
+                    <label>Stock Mínimo:</label>
+                    <input type="number" id="stock-minimo" value="10" min="0">
+                </div>
+                <button onclick="cargarProductosStockBajo()">Consultar</button>
+                <div id="tabla-stock-bajo"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:8080/api';
+        let carrito = [];
+        let categorias = [];
+        let productos = [];
+        let usuarios = [];
+
+        // Funciones de navegación
+        function mostrarSeccion(seccion) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(seccion).classList.add('active');
+            document.querySelectorAll('.subseccion').forEach(s => s.style.display = 'none');
+            
+            if (seccion === 'productos') {
+                cargarCategoriasParaSelect();
+            } else if (seccion === 'carrito' || seccion === 'pedido') {
+                cargarProductosParaCarrito();
+                if (seccion === 'pedido') {
+                    cargarUsuariosParaSelect();
+                }
+            } else if (seccion === 'admin') {
+                cargarUsuarios();
+            }
+        }
+
+        function mostrarSubseccion(subseccion) {
+            document.querySelectorAll('.subseccion').forEach(s => s.style.display = 'none');
+            document.getElementById(subseccion).style.display = 'block';
+            
+            if (subseccion === 'listar-productos') {
+                cargarProductos();
+            } else if (subseccion === 'listar-categorias') {
+                cargarCategorias();
+            } else if (subseccion === 'listar-usuarios') {
+                cargarUsuarios();
+            } else if (subseccion.includes('agregar')) {
+                if (subseccion === 'agregar-producto') {
+                    cargarCategoriasParaSelect();
+                }
+            }
+        }
+
+        function volverMenu() {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.subseccion').forEach(s => s.style.display = 'none');
+        }
+
+        function salir() {
+            if (confirm('¿Está seguro que desea salir?')) {
+                window.close();
+            }
+        }
+
+        // Funciones de Productos
+        async function cargarCategoriasParaSelect() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/categorias`);
+                categorias = await response.json();
+                
+                const selectProducto = document.getElementById('producto-categoria');
+                const selectActualizar = document.getElementById('actualizar-categoria');
+                
+                [selectProducto, selectActualizar].forEach(select => {
+                    if (select) {
+                        select.innerHTML = '<option value="">Seleccione una categoría</option>';
+                        categorias.forEach(cat => {
+                            const option = document.createElement('option');
+                            option.value = cat.id;
+                            option.textContent = cat.nombre;
+                            select.appendChild(option);
+                        });
+                    }
+                });
+            } catch (error) {
+                console.error('Error al cargar categorías:', error);
+            }
+        }
+
+        document.getElementById('form-agregar-producto').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const categoria = categorias.find(c => c.id == document.getElementById('producto-categoria').value);
+                const producto = {
+                    nombre: document.getElementById('producto-nombre').value,
+                    descripcion: document.getElementById('producto-descripcion').value,
+                    precio: parseFloat(document.getElementById('producto-precio').value),
+                    categoria: { id: categoria.id },
+                    imagenUrl: document.getElementById('producto-imagen').value,
+                    stock: parseInt(document.getElementById('producto-stock').value)
+                };
+
+                const response = await fetch(`${API_BASE_URL}/productos`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(producto)
+                });
+
+                if (response.ok) {
+                    mostrarAlerta('alert-agregar-producto', 'Producto agregado exitosamente', 'success');
+                    document.getElementById('form-agregar-producto').reset();
+                } else {
+                    const error = await response.json();
+                    mostrarAlerta('alert-agregar-producto', error.message || 'Error al agregar producto', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-agregar-producto', 'Error al agregar producto: ' + error.message, 'error');
+            }
+        });
+
+        async function cargarProductos() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/productos`);
+                productos = await response.json();
+                mostrarTablaProductos(productos);
+            } catch (error) {
+                console.error('Error al cargar productos:', error);
+            }
+        }
+
+        function mostrarTablaProductos(productos) {
+            const tabla = document.getElementById('tabla-productos');
+            if (productos.length === 0) {
+                tabla.innerHTML = '<p>No hay productos disponibles</p>';
+                return;
+            }
+
+            let html = '<table><thead><tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Precio</th><th>Categoría</th><th>Stock</th><th>Imagen</th></tr></thead><tbody>';
+            productos.forEach(p => {
+                const stockBadge = p.stock < 10 ? 
+                    `<span class="badge badge-stock-bajo">Stock Bajo</span>` : 
+                    `<span class="badge badge-stock-ok">OK</span>`;
+                html += `<tr>
+                    <td>${p.id}</td>
+                    <td>${p.nombre}</td>
+                    <td>${p.descripcion || ''}</td>
+                    <td>$${p.precio.toFixed(2)}</td>
+                    <td>${p.categoriaNombre || ''}</td>
+                    <td>${p.stock} ${stockBadge}</td>
+                    <td>${p.imagenUrl ? `<img src="${p.imagenUrl}" style="max-width: 50px; max-height: 50px;">` : 'N/A'}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            tabla.innerHTML = html;
+        }
+
+        async function buscarProductoPorId() {
+            const id = document.getElementById('buscar-producto-id').value;
+            if (!id) {
+                alert('Por favor ingrese un ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/productos/${id}`);
+                if (response.ok) {
+                    const producto = await response.json();
+                    mostrarProductoDetalle(producto);
+                } else {
+                    document.getElementById('resultado-buscar-producto').innerHTML = 
+                        '<div class="alert alert-error">Producto no encontrado</div>';
+                }
+            } catch (error) {
+                document.getElementById('resultado-buscar-producto').innerHTML = 
+                    '<div class="alert alert-error">Error al buscar producto</div>';
+            }
+        }
+
+        function mostrarProductoDetalle(producto) {
+            const stockBadge = producto.stock < 10 ? 
+                `<span class="badge badge-stock-bajo">Stock Bajo</span>` : 
+                `<span class="badge badge-stock-ok">OK</span>`;
+            
+            document.getElementById('resultado-buscar-producto').innerHTML = `
+                <div class="alert alert-info">
+                    <h4>${producto.nombre}</h4>
+                    <p><strong>ID:</strong> ${producto.id}</p>
+                    <p><strong>Descripción:</strong> ${producto.descripcion || 'N/A'}</p>
+                    <p><strong>Precio:</strong> $${producto.precio.toFixed(2)}</p>
+                    <p><strong>Categoría:</strong> ${producto.categoriaNombre || 'N/A'}</p>
+                    <p><strong>Stock:</strong> ${producto.stock} ${stockBadge}</p>
+                    ${producto.imagenUrl ? `<img src="${producto.imagenUrl}" style="max-width: 200px;">` : ''}
+                </div>
+            `;
+        }
+
+        async function cargarProductoParaActualizar() {
+            const id = document.getElementById('actualizar-producto-id').value;
+            if (!id) {
+                alert('Por favor ingrese un ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/productos/${id}`);
+                if (response.ok) {
+                    const producto = await response.json();
+                    document.getElementById('actualizar-nombre').value = producto.nombre;
+                    document.getElementById('actualizar-descripcion').value = producto.descripcion || '';
+                    document.getElementById('actualizar-precio').value = producto.precio;
+                    document.getElementById('actualizar-imagen').value = producto.imagenUrl || '';
+                    document.getElementById('actualizar-stock').value = producto.stock;
+                    
+                    await cargarCategoriasParaSelect();
+                    document.getElementById('actualizar-categoria').value = producto.categoriaId;
+                    document.getElementById('form-actualizar-producto').style.display = 'block';
+                } else {
+                    mostrarAlerta('alert-actualizar-producto', 'Producto no encontrado', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-actualizar-producto', 'Error al cargar producto', 'error');
+            }
+        }
+
+        async function actualizarProducto() {
+            const id = document.getElementById('actualizar-producto-id').value;
+            const categoria = categorias.find(c => c.id == document.getElementById('actualizar-categoria').value);
+            
+            const producto = {
+                nombre: document.getElementById('actualizar-nombre').value,
+                descripcion: document.getElementById('actualizar-descripcion').value,
+                precio: parseFloat(document.getElementById('actualizar-precio').value),
+                categoria: { id: categoria.id },
+                imagenUrl: document.getElementById('actualizar-imagen').value,
+                stock: parseInt(document.getElementById('actualizar-stock').value)
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/productos/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(producto)
+                });
+
+                if (response.ok) {
+                    mostrarAlerta('alert-actualizar-producto', 'Producto actualizado exitosamente', 'success');
+                } else {
+                    const error = await response.json();
+                    mostrarAlerta('alert-actualizar-producto', error.message || 'Error al actualizar', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-actualizar-producto', 'Error al actualizar producto', 'error');
+            }
+        }
+
+        async function eliminarProducto() {
+            const id = document.getElementById('eliminar-producto-id').value;
+            if (!id) {
+                alert('Por favor ingrese un ID');
+                return;
+            }
+
+            if (!confirm(`¿Está seguro que desea eliminar el producto con ID ${id}?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/productos/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    mostrarAlerta('alert-eliminar-producto', 'Producto eliminado exitosamente', 'success');
+                    document.getElementById('eliminar-producto-id').value = '';
+                } else {
+                    const error = await response.json();
+                    mostrarAlerta('alert-eliminar-producto', error.message || 'Error al eliminar', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-eliminar-producto', 'Error al eliminar producto', 'error');
+            }
+        }
+
+        // Funciones de Categorías
+        document.getElementById('form-agregar-categoria').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const categoria = {
+                    nombre: document.getElementById('categoria-nombre').value,
+                    descripcion: document.getElementById('categoria-descripcion').value
+                };
+
+                const response = await fetch(`${API_BASE_URL}/categorias`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(categoria)
+                });
+
+                if (response.ok) {
+                    mostrarAlerta('alert-agregar-categoria', 'Categoría agregada exitosamente', 'success');
+                    document.getElementById('form-agregar-categoria').reset();
+                } else {
+                    const error = await response.json();
+                    mostrarAlerta('alert-agregar-categoria', error.message || 'Error al agregar categoría', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-agregar-categoria', 'Error al agregar categoría: ' + error.message, 'error');
+            }
+        });
+
+        async function cargarCategorias() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/categorias`);
+                categorias = await response.json();
+                mostrarTablaCategorias(categorias);
+            } catch (error) {
+                console.error('Error al cargar categorías:', error);
+            }
+        }
+
+        function mostrarTablaCategorias(categorias) {
+            const tabla = document.getElementById('tabla-categorias');
+            if (categorias.length === 0) {
+                tabla.innerHTML = '<p>No hay categorías disponibles</p>';
+                return;
+            }
+
+            let html = '<table><thead><tr><th>ID</th><th>Nombre</th><th>Descripción</th></tr></thead><tbody>';
+            categorias.forEach(c => {
+                html += `<tr>
+                    <td>${c.id}</td>
+                    <td>${c.nombre}</td>
+                    <td>${c.descripcion || ''}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            tabla.innerHTML = html;
+        }
+
+        async function cargarCategoriaParaActualizar() {
+            const id = document.getElementById('actualizar-categoria-id').value;
+            if (!id) {
+                alert('Por favor ingrese un ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/categorias/${id}`);
+                if (response.ok) {
+                    const categoria = await response.json();
+                    document.getElementById('actualizar-categoria-nombre').value = categoria.nombre;
+                    document.getElementById('actualizar-categoria-descripcion').value = categoria.descripcion || '';
+                    document.getElementById('form-actualizar-categoria').style.display = 'block';
+                } else {
+                    mostrarAlerta('alert-actualizar-categoria', 'Categoría no encontrada', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-actualizar-categoria', 'Error al cargar categoría', 'error');
+            }
+        }
+
+        async function actualizarCategoria() {
+            const id = document.getElementById('actualizar-categoria-id').value;
+            const categoria = {
+                nombre: document.getElementById('actualizar-categoria-nombre').value,
+                descripcion: document.getElementById('actualizar-categoria-descripcion').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/categorias/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(categoria)
+                });
+
+                if (response.ok) {
+                    mostrarAlerta('alert-actualizar-categoria', 'Categoría actualizada exitosamente', 'success');
+                } else {
+                    const error = await response.json();
+                    mostrarAlerta('alert-actualizar-categoria', error.message || 'Error al actualizar', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-actualizar-categoria', 'Error al actualizar categoría', 'error');
+            }
+        }
+
+        async function eliminarCategoria() {
+            const id = document.getElementById('eliminar-categoria-id').value;
+            if (!id) {
+                alert('Por favor ingrese un ID');
+                return;
+            }
+
+            if (!confirm(`¿Está seguro que desea eliminar la categoría con ID ${id}?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/categorias/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    mostrarAlerta('alert-eliminar-categoria', 'Categoría eliminada exitosamente', 'success');
+                    document.getElementById('eliminar-categoria-id').value = '';
+                } else {
+                    const error = await response.json();
+                    mostrarAlerta('alert-eliminar-categoria', error.message || 'Error al eliminar', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-eliminar-categoria', 'Error al eliminar categoría', 'error');
+            }
+        }
+
+        // Funciones de Carrito
+        async function cargarProductosParaCarrito() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/productos`);
+                productos = await response.json();
+                mostrarProductosParaCarrito();
+                actualizarCarrito();
+            } catch (error) {
+                console.error('Error al cargar productos:', error);
+            }
+        }
+
+        function mostrarProductosParaCarrito() {
+            const contenedor = document.getElementById('productos-carrito');
+            if (!contenedor) return;
+
+            if (productos.length === 0) {
+                contenedor.innerHTML = '<p>No hay productos disponibles</p>';
+                return;
+            }
+
+            let html = '<h3>Productos Disponibles</h3><div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 15px;">';
+            productos.forEach(p => {
+                const stockBadge = p.stock < 10 ? 
+                    `<span class="badge badge-stock-bajo">Stock Bajo</span>` : 
+                    `<span class="badge badge-stock-ok">Disponible</span>`;
+                html += `
+                    <div style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; background: white;">
+                        <h4>${p.nombre}</h4>
+                        <p>$${p.precio.toFixed(2)}</p>
+                        <p>Stock: ${p.stock} ${stockBadge}</p>
+                        ${p.imagenUrl ? `<img src="${p.imagenUrl}" style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 5px;">` : ''}
+                        <button onclick="agregarAlCarrito(${p.id})" ${p.stock === 0 ? 'disabled' : ''}>Agregar al Carrito</button>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            contenedor.innerHTML = html;
+        }
+
+        function agregarAlCarrito(productoId) {
+            const producto = productos.find(p => p.id === productoId);
+            if (!producto) return;
+
+            const itemExistente = carrito.find(item => item.producto.id === productoId);
+            if (itemExistente) {
+                if (itemExistente.cantidad < producto.stock) {
+                    itemExistente.cantidad++;
+                } else {
+                    alert('No hay suficiente stock disponible');
+                    return;
+                }
+            } else {
+                if (producto.stock > 0) {
+                    carrito.push({ producto, cantidad: 1 });
+                } else {
+                    alert('Producto sin stock disponible');
+                    return;
+                }
+            }
+
+            actualizarCarrito();
+        }
+
+        function actualizarCarrito() {
+            const contenedor = document.getElementById('carrito-items');
+            const totalCarrito = document.getElementById('total-carrito');
+            const totalPedido = document.getElementById('total-pedido');
+
+            if (contenedor) {
+                if (carrito.length === 0) {
+                    contenedor.innerHTML = '<p>El carrito está vacío</p>';
+                } else {
+                    let html = '<h3>Items en el Carrito</h3>';
+                    carrito.forEach((item, index) => {
+                        const subtotal = item.producto.precio * item.cantidad;
+                        html += `
+                            <div class="carrito-item">
+                                <div class="carrito-item-info">
+                                    <h4>${item.producto.nombre}</h4>
+                                    <p>Precio unitario: $${item.producto.precio.toFixed(2)}</p>
+                                    <p>Subtotal: $${subtotal.toFixed(2)}</p>
+                                </div>
+                                <div class="carrito-item-actions">
+                                    <input type="number" class="cantidad-input" value="${item.cantidad}" 
+                                           min="1" max="${item.producto.stock}" 
+                                           onchange="actualizarCantidad(${index}, this.value)">
+                                    <button onclick="removerDelCarrito(${index})" class="danger">Eliminar</button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    contenedor.innerHTML = html;
+                }
+            }
+
+            const total = carrito.reduce((sum, item) => sum + (item.producto.precio * item.cantidad), 0);
+            if (totalCarrito) {
+                totalCarrito.textContent = `Total: $${total.toFixed(2)}`;
+            }
+            if (totalPedido) {
+                totalPedido.textContent = `Total: $${total.toFixed(2)}`;
+            }
+
+            // Actualizar carrito en sección de pedido
+            const carritoPedido = document.getElementById('carrito-pedido');
+            if (carritoPedido && contenedor) {
+                carritoPedido.innerHTML = contenedor.innerHTML;
+            }
+        }
+
+        function actualizarCantidad(index, nuevaCantidad) {
+            const item = carrito[index];
+            const cantidad = parseInt(nuevaCantidad);
+            
+            if (cantidad < 1) {
+                removerDelCarrito(index);
+                return;
+            }
+            
+            if (cantidad > item.producto.stock) {
+                alert('No hay suficiente stock disponible');
+                item.cantidad = item.producto.stock;
+                actualizarCarrito();
+                return;
+            }
+            
+            item.cantidad = cantidad;
+            actualizarCarrito();
+        }
+
+        function removerDelCarrito(index) {
+            carrito.splice(index, 1);
+            actualizarCarrito();
+        }
+
+        function limpiarCarrito() {
+            if (confirm('¿Está seguro que desea limpiar el carrito?')) {
+                carrito = [];
+                actualizarCarrito();
+            }
+        }
+
+        // Funciones de Pedidos
+        async function cargarUsuariosParaSelect() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/usuarios`);
+                usuarios = await response.json();
+                
+                const select = document.getElementById('pedido-usuario');
+                if (select) {
+                    select.innerHTML = '<option value="">Seleccione un usuario</option>';
+                    usuarios.forEach(u => {
+                        const option = document.createElement('option');
+                        option.value = u.id;
+                        option.textContent = `${u.nombre} (${u.email})`;
+                        select.appendChild(option);
+                    });
+                }
+            } catch (error) {
+                console.error('Error al cargar usuarios:', error);
+            }
+        }
+
+        async function crearPedido() {
+            const usuarioId = document.getElementById('pedido-usuario').value;
+            if (!usuarioId) {
+                mostrarAlerta('alert-pedido', 'Por favor seleccione un usuario', 'error');
+                return;
+            }
+
+            if (carrito.length === 0) {
+                mostrarAlerta('alert-pedido', 'El carrito está vacío', 'error');
+                return;
+            }
+
+            const lineasPedido = carrito.map(item => ({
+                productoId: item.producto.id,
+                cantidad: item.cantidad
+            }));
+
+            const pedidoDTO = {
+                usuarioId: parseInt(usuarioId),
+                lineasPedido: lineasPedido
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/pedidos`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(pedidoDTO)
+                });
+
+                if (response.ok) {
+                    const pedido = await response.json();
+                    mostrarAlerta('alert-pedido', 
+                        `Pedido creado exitosamente. ID: ${pedido.id}. Total: $${pedido.total.toFixed(2)}`, 
+                        'success');
+                    carrito = [];
+                    actualizarCarrito();
+                } else {
+                    const error = await response.json();
+                    mostrarAlerta('alert-pedido', error.message || 'Error al crear pedido', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-pedido', 'Error al crear pedido: ' + error.message, 'error');
+            }
+        }
+
+        async function cargarHistorialPedidos() {
+            const usuarioId = document.getElementById('historial-usuario-id').value;
+            if (!usuarioId) {
+                alert('Por favor ingrese un ID de usuario');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/pedidos/usuario/${usuarioId}`);
+                if (response.ok) {
+                    const pedidos = await response.json();
+                    mostrarTablaHistorial(pedidos);
+                } else {
+                    document.getElementById('tabla-historial').innerHTML = 
+                        '<div class="alert alert-error">No se encontraron pedidos para este usuario</div>';
+                }
+            } catch (error) {
+                document.getElementById('tabla-historial').innerHTML = 
+                    '<div class="alert alert-error">Error al cargar historial</div>';
+            }
+        }
+
+        function mostrarTablaHistorial(pedidos) {
+            const tabla = document.getElementById('tabla-historial');
+            if (pedidos.length === 0) {
+                tabla.innerHTML = '<p>No hay pedidos para este usuario</p>';
+                return;
+            }
+
+            let html = '<table><thead><tr><th>ID</th><th>Fecha</th><th>Estado</th><th>Total</th><th>Productos</th></tr></thead><tbody>';
+            pedidos.forEach(p => {
+                const estadoBadge = `<span class="badge badge-${p.estado.toLowerCase()}">${p.estado}</span>`;
+                const productos = p.lineasPedido.map(lp => 
+                    `${lp.producto.nombre} (x${lp.cantidad})`
+                ).join(', ');
+                
+                html += `<tr>
+                    <td>${p.id}</td>
+                    <td>${new Date(p.fechaCreacion).toLocaleString()}</td>
+                    <td>${estadoBadge}</td>
+                    <td>$${p.total.toFixed(2)}</td>
+                    <td>${productos}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            tabla.innerHTML = html;
+        }
+
+        // Funciones de Usuarios
+        document.getElementById('form-agregar-usuario').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const usuario = {
+                    nombre: document.getElementById('usuario-nombre').value,
+                    email: document.getElementById('usuario-email').value,
+                    direccion: document.getElementById('usuario-direccion').value,
+                    telefono: document.getElementById('usuario-telefono').value
+                };
+
+                const response = await fetch(`${API_BASE_URL}/usuarios`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(usuario)
+                });
+
+                if (response.ok) {
+                    mostrarAlerta('alert-agregar-usuario', 'Usuario agregado exitosamente', 'success');
+                    document.getElementById('form-agregar-usuario').reset();
+                } else {
+                    const error = await response.json();
+                    mostrarAlerta('alert-agregar-usuario', error.message || 'Error al agregar usuario', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-agregar-usuario', 'Error al agregar usuario: ' + error.message, 'error');
+            }
+        });
+
+        async function cargarUsuarios() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/usuarios`);
+                usuarios = await response.json();
+                mostrarTablaUsuarios(usuarios);
+            } catch (error) {
+                console.error('Error al cargar usuarios:', error);
+            }
+        }
+
+        function mostrarTablaUsuarios(usuarios) {
+            const tabla = document.getElementById('tabla-usuarios');
+            if (!tabla) return;
+
+            if (usuarios.length === 0) {
+                tabla.innerHTML = '<p>No hay usuarios disponibles</p>';
+                return;
+            }
+
+            let html = '<table><thead><tr><th>ID</th><th>Nombre</th><th>Email</th><th>Dirección</th><th>Teléfono</th></tr></thead><tbody>';
+            usuarios.forEach(u => {
+                html += `<tr>
+                    <td>${u.id}</td>
+                    <td>${u.nombre}</td>
+                    <td>${u.email}</td>
+                    <td>${u.direccion || 'N/A'}</td>
+                    <td>${u.telefono || 'N/A'}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            tabla.innerHTML = html;
+        }
+
+        async function cargarUsuarioParaActualizar() {
+            const id = document.getElementById('actualizar-usuario-id').value;
+            if (!id) {
+                alert('Por favor ingrese un ID');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/usuarios/${id}`);
+                if (response.ok) {
+                    const usuario = await response.json();
+                    document.getElementById('actualizar-usuario-nombre').value = usuario.nombre;
+                    document.getElementById('actualizar-usuario-email').value = usuario.email;
+                    document.getElementById('actualizar-usuario-direccion').value = usuario.direccion || '';
+                    document.getElementById('actualizar-usuario-telefono').value = usuario.telefono || '';
+                    document.getElementById('form-actualizar-usuario').style.display = 'block';
+                } else {
+                    mostrarAlerta('alert-actualizar-usuario', 'Usuario no encontrado', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-actualizar-usuario', 'Error al cargar usuario', 'error');
+            }
+        }
+
+        async function actualizarUsuario() {
+            const id = document.getElementById('actualizar-usuario-id').value;
+            const usuario = {
+                nombre: document.getElementById('actualizar-usuario-nombre').value,
+                email: document.getElementById('actualizar-usuario-email').value,
+                direccion: document.getElementById('actualizar-usuario-direccion').value,
+                telefono: document.getElementById('actualizar-usuario-telefono').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/usuarios/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(usuario)
+                });
+
+                if (response.ok) {
+                    mostrarAlerta('alert-actualizar-usuario', 'Usuario actualizado exitosamente', 'success');
+                } else {
+                    const error = await response.json();
+                    mostrarAlerta('alert-actualizar-usuario', error.message || 'Error al actualizar', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-actualizar-usuario', 'Error al actualizar usuario', 'error');
+            }
+        }
+
+        async function eliminarUsuario() {
+            const id = document.getElementById('eliminar-usuario-id').value;
+            if (!id) {
+                alert('Por favor ingrese un ID');
+                return;
+            }
+
+            if (!confirm(`¿Está seguro que desea eliminar el usuario con ID ${id}?`)) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/usuarios/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    mostrarAlerta('alert-eliminar-usuario', 'Usuario eliminado exitosamente', 'success');
+                    document.getElementById('eliminar-usuario-id').value = '';
+                } else {
+                    const error = await response.json();
+                    mostrarAlerta('alert-eliminar-usuario', error.message || 'Error al eliminar', 'error');
+                }
+            } catch (error) {
+                mostrarAlerta('alert-eliminar-usuario', 'Error al eliminar usuario', 'error');
+            }
+        }
+
+        async function cargarProductosStockBajo() {
+            const stockMinimo = document.getElementById('stock-minimo').value || 10;
+            try {
+                const response = await fetch(`${API_BASE_URL}/productos/stock-bajo?stockMinimo=${stockMinimo}`);
+                if (response.ok) {
+                    const productos = await response.json();
+                    mostrarTablaStockBajo(productos);
+                } else {
+                    document.getElementById('tabla-stock-bajo').innerHTML = 
+                        '<div class="alert alert-error">Error al cargar productos</div>';
+                }
+            } catch (error) {
+                document.getElementById('tabla-stock-bajo').innerHTML = 
+                    '<div class="alert alert-error">Error al cargar productos</div>';
+            }
+        }
+
+        function mostrarTablaStockBajo(productos) {
+            const tabla = document.getElementById('tabla-stock-bajo');
+            if (productos.length === 0) {
+                tabla.innerHTML = '<div class="alert alert-success">No hay productos con stock bajo</div>';
+                return;
+            }
+
+            let html = '<div class="alert alert-error">⚠️ Productos con stock bajo detectados</div>';
+            html += '<table><thead><tr><th>ID</th><th>Nombre</th><th>Stock Actual</th><th>Precio</th><th>Acción</th></tr></thead><tbody>';
+            productos.forEach(p => {
+                html += `<tr>
+                    <td>${p.id}</td>
+                    <td>${p.nombre}</td>
+                    <td><span class="badge badge-stock-bajo">${p.stock}</span></td>
+                    <td>$${p.precio.toFixed(2)}</td>
+                    <td><button onclick="irAProducto(${p.id})">Actualizar Stock</button></td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            tabla.innerHTML = html;
+        }
+
+        function irAProducto(productoId) {
+            mostrarSeccion('productos');
+            mostrarSubseccion('actualizar-producto');
+            document.getElementById('actualizar-producto-id').value = productoId;
+            cargarProductoParaActualizar();
+        }
+
+        // Funciones auxiliares
+        function mostrarAlerta(id, mensaje, tipo) {
+            const alertDiv = document.getElementById(id);
+            if (alertDiv) {
+                alertDiv.innerHTML = `<div class="alert alert-${tipo}">${mensaje}</div>`;
+                setTimeout(() => {
+                    alertDiv.innerHTML = '';
+                }, 5000);
+            }
+        }
+
+        function limpiarFormulario(formId) {
+            document.getElementById(formId).reset();
+        }
+    </script>
+</body>
+</html>
+
